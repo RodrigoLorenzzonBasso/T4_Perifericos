@@ -1,4 +1,4 @@
 # T4_Perifericos
 Trabalho 4 da cadeira de programação de perifericos
 
-![Screenshot](Renan/Renan.png)
+![Renan](https://raw.githubusercontent.com/RodrigoLorenzzonBasso/T4_Perifericos/Renan/Renan.png)
