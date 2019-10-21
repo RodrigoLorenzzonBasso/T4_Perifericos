@@ -11,16 +11,13 @@
 const char* ssid     = "P30_IOT";
 const char* password = "pucrs@2019";
 
-const char* host = "10.30.156.65";
+const char* host = "192.168.30.128";
 
 void setup() {
   Serial.begin(115200);
   delay(10);
 
   // We start by connecting to a WiFi network
-
-  Serial.println("");
-  Serial.println("");
   Serial.print("Connecting to ");
   Serial.println(ssid);
   
@@ -32,7 +29,6 @@ void setup() {
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
   }
 
   Serial.println("");
@@ -41,13 +37,10 @@ void setup() {
   Serial.println(WiFi.localIP());
 }
 
-int value = 0;
-
 void loop() {
+  
   delay(500);
-  ++value;
 
-    
   // Use WiFiClient class to create TCP connections
   WiFiClient client;
   const int httpPort = 32000;
@@ -56,11 +49,11 @@ void loop() {
     return;
   }
   
- client.print("Teste\n");
+ client.print("Teste\n oi koefender \n");
   
    
-    String line = client.readStringUntil('.');
-    Serial.print(line);
+  String line = client.readStringUntil('.');
+  Serial.print(line);
  
   
   

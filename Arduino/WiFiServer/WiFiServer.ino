@@ -1,7 +1,6 @@
-
 #include <ESP8266WiFi.h>
-const char* ssid = "embarcados";
-const char* password = "embarcados";
+const char* ssid = "P30_IOT";
+const char* password = "pucrs@2019";
 const int ledPin = 2;
 WiFiServer server(32000);
 
@@ -34,6 +33,7 @@ void loop(void) {
 
   if (client) {
     Serial.println("Client connected.");
+    client.print("nha");
    
     while (client.connected()) {
       if (client.available()) {
