@@ -11,7 +11,7 @@
 const char* ssid     = "P30_IOT";
 const char* password = "pucrs@2019";
 
-const char* host = "10.30.156.63";
+const char* host = "10.30.156.65";
 
 void setup() {
   Serial.begin(115200);
@@ -19,8 +19,8 @@ void setup() {
 
   // We start by connecting to a WiFi network
 
-  Serial.println();
-  Serial.println();
+  Serial.println("");
+  Serial.println("");
   Serial.print("Connecting to ");
   Serial.println(ssid);
   
