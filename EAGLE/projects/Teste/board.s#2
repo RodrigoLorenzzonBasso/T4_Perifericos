@@ -16236,10 +16236,10 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <part name="GND7" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND8" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND9" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="C6" library="capacitor-wima" library_urn="urn:adsk.eagle:library:116" deviceset="C" device="5/3" package3d_urn="urn:adsk.eagle:package:5433/1" value="100nF">
+<part name="C6" library="capacitor-wima" library_urn="urn:adsk.eagle:library:116" deviceset="C" device="5/3" package3d_urn="urn:adsk.eagle:package:5433/1">
 <attribute name="CAP" value="100nF"/>
 </part>
-<part name="C7" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="CPOL-EU" device="E5-6" package3d_urn="urn:adsk.eagle:package:23368/1" value="10nF">
+<part name="C7" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="CPOL-EU" device="E5-6" package3d_urn="urn:adsk.eagle:package:23368/1">
 <spice>
 <pinmapping spiceprefix="C">
 <pinmap gate="G$1" pin="+" pinorder="1"/>
@@ -16405,10 +16405,12 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <instance part="C6" gate="G$1" x="81.28" y="45.72" smashed="yes">
 <attribute name="NAME" x="82.804" y="41.021" size="1.778" layer="95"/>
 <attribute name="VALUE" x="82.804" y="41.021" size="1.778" layer="96"/>
+<attribute name="CAP" x="83.82" y="45.72" size="1.778" layer="96"/>
 </instance>
 <instance part="C7" gate="G$1" x="73.66" y="45.72" smashed="yes">
 <attribute name="NAME" x="69.723" y="41.1226" size="1.778" layer="95"/>
 <attribute name="VALUE" x="74.803" y="41.1226" size="1.778" layer="96"/>
+<attribute name="SPICEPREFIX" x="73.66" y="45.72" size="1.778" layer="96"/>
 </instance>
 <instance part="GND10" gate="1" x="73.66" y="33.02" smashed="yes">
 <attribute name="VALUE" x="73.66" y="27.94" size="1.778" layer="96"/>
