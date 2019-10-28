@@ -1,0 +1,15 @@
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/timers.c
+displaylcd\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+displaylcd\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+displaylcd\timers.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+displaylcd\timers.o: ../Inc/FreeRTOSConfig.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+displaylcd\timers.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
