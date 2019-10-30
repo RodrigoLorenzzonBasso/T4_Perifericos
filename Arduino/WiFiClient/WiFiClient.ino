@@ -11,7 +11,7 @@
 const char* ssid     = "P30_IOT";
 const char* password = "pucrs@2019";
 
-const char* host = "192.168.30.128";
+const char* host = "192.168.30.126";
 
 void setup() {
   Serial.begin(115200);
@@ -43,18 +43,13 @@ void loop() {
 
   // Use WiFiClient class to create TCP connections
   WiFiClient client;
-  const int httpPort = 32000;
+  const int httpPort = 31600;
   if (!client.connect(host, httpPort)) {
     Serial.println("connection failed");
     return;
   }
-  
- client.print("Teste\n oi koefender \n");
-  
    
-  String line = client.readStringUntil('.');
+  String line = client.readStringUntil(';');
   Serial.print(line);
- 
-  
-  
+    
 }

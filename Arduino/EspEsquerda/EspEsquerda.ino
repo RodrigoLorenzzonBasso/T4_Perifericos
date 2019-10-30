@@ -19,7 +19,7 @@ int dhtPin = 16;
 // wifi setup
 const char* ssid = "P30_IOT";
 const char* password = "pucrs@2019";
-int port = 32000;
+int port = 31600;
 WiFiServer server(port);
 
 void setup()
@@ -29,8 +29,7 @@ void setup()
 
   WiFi.begin(ssid, password);
   server.begin();
-  
-  lcd.print("hello, world!");
+  lcd.begin(16, 2);
 }
 
 void loop()
@@ -42,10 +41,22 @@ void loop()
 
   print_dht(humidity, temperature);
 
+  char str[30];
+  sprintf(str,"T %02.1f H %02.1f\n;",temperature,humidity);
+
+  char temp[30];
+  sprintf(temp,"Temperatura %2.1fC",temperature);
+
+  char humi[30];
+  sprintf(humi,"Umidade %2.1f%%",humidity);
+
   lcd.clear();
-  char teste[30];
-  sprintf(teste,"T %2.1fC H %2.1f%%",temperature,humidity);
-  lcd.print(teste);
+  
+  lcd.setCursor(0,0);
+  lcd.print(temp);
+
+  lcd.setCursor(0,1);
+  lcd.print(humi);
 
   ////////////////// Wifi //////////////////////
   // Check if module is still connected to WiFi.
@@ -59,7 +70,8 @@ void loop()
 
   if (client) {
     Serial.println("Client connected.");
-    client.print("Hi, Client");
+
+    client.print(str);
    
     while (client.connected()) {
       if (client.available()) {
@@ -86,4 +98,5 @@ void print_dht(float humidity, float temperature)
   Serial.print("%\nTemperatura: ");
   Serial.print(temperature, 1);
   Serial.print("\n");
+  Serial.println(WiFi.localIP());
 }
