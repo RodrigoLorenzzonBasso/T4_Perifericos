@@ -16785,6 +16785,18 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <label x="144.78" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
+<net name="MOTOR" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="S3"/>
+<wire x1="104.14" y1="-2.54" x2="104.14" y2="-12.7" width="0.1524" layer="91"/>
+<label x="104.14" y="-15.24" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="V1" gate="/1" pin="B"/>
+<wire x1="127" y1="78.74" x2="111.76" y2="78.74" width="0.1524" layer="91"/>
+<label x="109.22" y="76.2" size="1.778" layer="95"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>

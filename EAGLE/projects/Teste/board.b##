@@ -2213,7 +2213,7 @@ design rules under a new name.</description>
 <attribute name="SPICEPREFIX" value="33" x="17.37" y="152.95" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="VALUE" x="56.105" y="21.5558" size="1.27" layer="27" ratio="10" rot="R180"/>
 </element>
-<element name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" package="0309/12" package3d_urn="urn:adsk.eagle:package:23571/1" value="" x="76.2" y="22.86" smashed="yes">
+<element name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" package="0309/12" package3d_urn="urn:adsk.eagle:package:23571/1" value="10K" x="76.2" y="22.86" smashed="yes">
 <attribute name="NAME" x="72.009" y="24.765" size="1.27" layer="25" ratio="10"/>
 <attribute name="SPICEPREFIX" value="10k" x="127" y="-109.22" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="73.025" y="22.1742" size="1.27" layer="27" ratio="10"/>
