@@ -10,7 +10,7 @@ Servo servo;
 int servoPin = 4;
 int pos;
               //rs, enable, d4, d5, d6, d7
-LiquidCrystal lcd(0, 2, 15, 13, 12, 14);
+LiquidCrystal lcd(15, 13, 12, 14, 0, 2);
 DHTesp dht;
 int dhtPin = 16;
 
@@ -41,11 +41,23 @@ void setup()
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+
+  Serial.println("Girando motor1");
+  gira_motor();
+
+  Serial.println("Girando motor2");
+  gira_motor2();
+  
 }
 
 void loop()
 {
-  delay(dht.getMinimumSamplingPeriod());
+
+  gira_motor();
+  delay(300);
+  gira_motor2();
+  delay(300);
+  /*delay(dht.getMinimumSamplingPeriod());
 
   float humidity = dht.getHumidity();
   float temperature = dht.getTemperature();
@@ -102,7 +114,7 @@ void loop()
      }
   }
   
-  ////////////////// Wifi //////////////////////
+  ////////////////// Wifi //////////////////////*/
 }
 
 // Functions
@@ -111,7 +123,7 @@ void gira_motor()
 {
   for(pos = 0; pos < 180; pos++){ //PARA "pos" IGUAL A 0, ENQUANTO "pos" MENOR QUE 180, INCREMENTA "pos"
     servo.write(pos); //ESCREVE O VALOR DA POSIÇÃO QUE O SERVO DEVE GIRAR
-    delay(3); //INTERVALO DE 15 MILISSEGUNDOS
+    delay(15); //INTERVALO DE 15 MILISSEGUNDOS
   }    
 }
 
@@ -119,6 +131,6 @@ void gira_motor2()
 {
   for(pos = 180; pos < 0; pos--){ //PARA "pos" IGUAL A 0, ENQUANTO "pos" MENOR QUE 180, INCREMENTA "pos"
     servo.write(pos); //ESCREVE O VALOR DA POSIÇÃO QUE O SERVO DEVE GIRAR
-    delay(3); //INTERVALO DE 15 MILISSEGUNDOS
+    delay(15); //INTERVALO DE 15 MILISSEGUNDOS
   }    
 }

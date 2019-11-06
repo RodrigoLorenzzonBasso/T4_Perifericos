@@ -80,9 +80,8 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-osThreadId defaultTaskHandle;
-osThreadId myTask02Handle;
-osThreadId myTask03Handle;
+osThreadId PrintaDisplayHandle;
+osThreadId MonitoraTouchHandle;
 osSemaphoreId myBinarySem01Handle;
 osSemaphoreId myBinarySem02Handle;
 
@@ -96,9 +95,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void const * argument);
-void StartTask02(void const * argument);
-void StartTask03(void const * argument);
+void StartPrintaDisplay(void const * argument);
+void StartMonitoraTouch(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -134,17 +132,13 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_TIMERS */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* definition and creation of PrintaDisplay */
+  osThreadDef(PrintaDisplay, StartPrintaDisplay, osPriorityNormal, 0, 128);
+  PrintaDisplayHandle = osThreadCreate(osThread(PrintaDisplay), NULL);
 
-  /* definition and creation of myTask02 */
-  osThreadDef(myTask02, StartTask02, osPriorityNormal, 0, 128);
-  myTask02Handle = osThreadCreate(osThread(myTask02), NULL);
-
-  /* definition and creation of myTask03 */
-  osThreadDef(myTask03, StartTask03, osPriorityNormal, 0, 128);
-  myTask03Handle = osThreadCreate(osThread(myTask03), NULL);
+  /* definition and creation of MonitoraTouch */
+  osThreadDef(MonitoraTouch, StartMonitoraTouch, osPriorityNormal, 0, 128);
+  MonitoraTouchHandle = osThreadCreate(osThread(MonitoraTouch), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   osThreadSuspend(myTask02Handle);//suspender para não executar a primeira vez
@@ -156,76 +150,41 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_StartPrintaDisplay */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the PrintaDisplay thread.
   * @param  argument: Not used 
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+/* USER CODE END Header_StartPrintaDisplay */
+void StartPrintaDisplay(void const * argument)
 {
 
-  /* USER CODE BEGIN StartDefaultTask */
+  /* USER CODE BEGIN StartPrintaDisplay */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END StartDefaultTask */
+  /* USER CODE END StartPrintaDisplay */
 }
 
-/* USER CODE BEGIN Header_StartTask02 */
+/* USER CODE BEGIN Header_StartMonitoraTouch */
 /**
-* @brief Function implementing the myTask02 thread.
+* @brief Function implementing the MonitoraTouch thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void const * argument)
+/* USER CODE END Header_StartMonitoraTouch */
+void StartMonitoraTouch(void const * argument)
 {
-		/* USER CODE BEGIN StartTask02 */
-		int i=0;
-		/* Infinite loop */
-		for(;;)
-		{
-			osSemaphoreWait(myBinarySem01Handle,osWaitForever);//Espera o semaforo 1 ser liberado
-
-			for(i=0;i<4;i++)
-			{
-			//osDelay(250);
-			HAL_Delay(250);
-			HAL_GPIO_TogglePin(GPIOG,LD3_Pin);
-			}
-			osThreadResume(myTask03Handle); //desbloqueia a TASK2
-			osSemaphoreRelease(myBinarySem02Handle);//libera o semaforo 2
-	 }
-	 /* USER CODE END StartTask02 */
-}
-
-/* USER CODE BEGIN Header_StartTask03 */
-/**
-* @brief Function implementing the myTask03 thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask03 */
-void StartTask03(void const * argument)
-{
-  /* USER CODE BEGIN StartTask03 */
-	int i=0;
-	/* Infinite loop */
-	for(;;)
-	{
-		osSemaphoreWait(myBinarySem02Handle,osWaitForever);//Espera o semaforo 2 ser liberado
-
-		for(i=0;i<4;i++)
-		{
-			HAL_Delay(500);
-			HAL_GPIO_TogglePin(GPIOG,LD4_Pin);
-		}
-	}
- /* USER CODE END StartTask03 */
+  /* USER CODE BEGIN StartMonitoraTouch */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartMonitoraTouch */
 }
 
 /* Private application code --------------------------------------------------*/
