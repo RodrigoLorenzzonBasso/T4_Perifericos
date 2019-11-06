@@ -10,7 +10,7 @@ Servo servo;
 int servoPin = 4;
 int pos;
               //rs, enable, d4, d5, d6, d7
-LiquidCrystal lcd(0, 2, 14, 12, 13, 15);
+LiquidCrystal lcd(0, 2, 15, 13, 12, 14);
 DHTesp dht;
 int dhtPin = 16;
 
@@ -19,21 +19,28 @@ char estado = 0; // 0 fechado 1 aberto
 // wifi setup
 const char* ssid = "P30_IOT";
 const char* password = "pucrs@2019";
-int port = 31600;
-WiFiServer server(port);
+const char* host = "192.168.30.126";
+const int port = 31600;
 
 void setup()
 {
   Serial.begin(115200);
   dht.setup(dhtPin, DHTesp::DHT11); // Connect DHT sensor to GPIO 16
-
-  Serial.println(WiFi.localIP());
-
-  WiFi.begin(ssid, password);
-  server.begin();
   lcd.begin(16, 2);
-
   servo.attach(servoPin);
+
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");  
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
 }
 
 void loop()
@@ -42,8 +49,6 @@ void loop()
 
   float humidity = dht.getHumidity();
   float temperature = dht.getTemperature();
-
-  print_dht(humidity, temperature);
 
   char str[30];
   sprintf(str,"%02.1f %02.1f;",temperature,humidity);
@@ -54,6 +59,9 @@ void loop()
   char humi[30];
   sprintf(humi,"Umidade %2.1f%%",humidity);
 
+  Serial.println(humi);
+  Serial.println(temp);
+
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print(temp);
@@ -61,50 +69,43 @@ void loop()
   lcd.print(humi);
 
   ////////////////// Wifi //////////////////////
-  // Check if module is still connected to WiFi.
-  if (WiFi.status() != WL_CONNECTED) {
-    while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
-    }
+
+  WiFiClient server;
+  
+  if (!server.connect(host, port)) {
+    Serial.println("connection failed");
+    return;
   }
 
-  WiFiClient client = server.available();
+  // connected
 
-  if (client) {
-    Serial.println("Client connected.");
+  String line = server.readStringUntil(';');
+  Serial.print("Recebido do Servidor: ");
+  Serial.println(line);
 
-    client.print(str);
-   
-    while (client.connected()) {
-      if (client.available()) {
-        
-       String line = client.readStringUntil(';');
-       Serial.println(line);
+  server.print(str);
 
-       if(strcmp(line,"Abrir") == 0)
-       {
-         if(estado == 0)
-         {
-           gira_motor();
-           estado = 1;
-         }
-          
-       }
-       else if(strcmp(line,"Fechar") == 0)
-       {
-         if(estado == 1)
-         {
-           gira_motor2();
-           estado = 0; 
-         }
-       }
-      }
-    }
-    Serial.println("Client disconnected.");
-    client.stop();
+  if(line == "abrir")
+  {
+     if(estado == 0)
+     {
+       gira_motor();
+       estado = 1;
+     } 
   }
+  else if(line == "fechar")
+  {
+    if(estado == 1)
+    {
+      gira_motor2();
+      estado = 0; 
+     }
+  }
+  
   ////////////////// Wifi //////////////////////
 }
+
+// Functions
 
 void gira_motor()
 {
