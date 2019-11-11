@@ -58,6 +58,7 @@
 /* USER CODE BEGIN Includes */     
 
 #include "gpio.h"
+#include "usart.h"
 
 /* USER CODE END Includes */
 
@@ -79,18 +80,29 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 
+struct Control{
+	
+	float temp;
+	float umid;
+	
+	unsigned char conectado;
+	
+	char str[50];
+	
+}c;
+
 /* USER CODE END Variables */
 osThreadId PrintaDisplayHandle;
 osThreadId MonitoraTouchHandle;
-osSemaphoreId myBinarySem01Handle;
-osSemaphoreId myBinarySem02Handle;
+osSemaphoreId sensoresHandle;
+osSemaphoreId touchHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	osThreadResume(myTask02Handle); //desbloqueia a TASK2
-	osSemaphoreRelease(myBinarySem01Handle); // Libera o Semaforo 1
+	//osThreadResume(myTask02Handle); //desbloqueia a TASK2
+	//osSemaphoreRelease(myBinarySem01Handle); // Libera o Semaforo 1
 }
 
 /* USER CODE END FunctionPrototypes */
@@ -107,6 +119,12 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
+	
+	c.temp = 0.0;
+	c.umid = 0.0;
+	c.conectado = 0;
+	
+	// inicializa uart
        
   /* USER CODE END Init */
 
@@ -115,13 +133,13 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_MUTEX */
 
   /* Create the semaphores(s) */
-  /* definition and creation of myBinarySem01 */
-  osSemaphoreDef(myBinarySem01);
-  myBinarySem01Handle = osSemaphoreCreate(osSemaphore(myBinarySem01), 1);
+  /* definition and creation of sensores */
+  osSemaphoreDef(sensores);
+  sensoresHandle = osSemaphoreCreate(osSemaphore(sensores), 1);
 
-  /* definition and creation of myBinarySem02 */
-  osSemaphoreDef(myBinarySem02);
-  myBinarySem02Handle = osSemaphoreCreate(osSemaphore(myBinarySem02), 1);
+  /* definition and creation of touch */
+  osSemaphoreDef(touch);
+  touchHandle = osSemaphoreCreate(osSemaphore(touch), 1);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -141,8 +159,8 @@ void MX_FREERTOS_Init(void) {
   MonitoraTouchHandle = osThreadCreate(osThread(MonitoraTouch), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  osThreadSuspend(myTask02Handle);//suspender para não executar a primeira vez
-	osThreadSuspend(myTask03Handle);
+  //osThreadSuspend(myTask02Handle);//suspender para não executar a primeira vez
+	//osThreadSuspend(myTask03Handle);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
@@ -164,6 +182,14 @@ void StartPrintaDisplay(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+		osSemaphoreWait(sensoresHandle, osWaitForever);
+		int temperatura = c.temp;
+		int umidade = c.umid;
+		unsigned char conectado = c.conectado;
+		osSemaphoreRelease(sensoresHandle);
+		
+		// DESENHA A TELA DO DISPLAY
+		
     osDelay(1);
   }
   /* USER CODE END StartPrintaDisplay */

@@ -37,6 +37,7 @@ displaylcd\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 displaylcd\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 displaylcd\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 displaylcd\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+displaylcd\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 displaylcd\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 displaylcd\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 displaylcd\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -56,6 +57,7 @@ displaylcd\main.o: ../Inc/dma2d.h
 displaylcd\main.o: ../Inc/i2c.h
 displaylcd\main.o: ../Inc/ltdc.h
 displaylcd\main.o: ../Inc/spi.h
+displaylcd\main.o: ../Inc/usart.h
 displaylcd\main.o: ../Inc/gpio.h
 displaylcd\main.o: ../Inc/fmc.h
 displaylcd\main.o: ..\Drivers\BSP\STM32F429I-Discovery\stm32f429i_discovery_lcd.h

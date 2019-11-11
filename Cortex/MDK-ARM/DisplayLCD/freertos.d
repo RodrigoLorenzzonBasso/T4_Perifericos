@@ -47,9 +47,11 @@ displaylcd\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.
 displaylcd\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 displaylcd\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 displaylcd\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+displaylcd\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 displaylcd\freertos.o: ../Inc/gpio.h
+displaylcd\freertos.o: ../Inc/usart.h
