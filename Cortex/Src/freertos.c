@@ -210,8 +210,8 @@ void StartPrintaDisplay(void const * argument)
     sprintf((char*)c.str,"Umid %2.1f%%", umidade);
     BSP_LCD_DisplayStringAtLine(5,c.str);
 		
-    BSP_LCD_DrawRect(100,160,70,20);
-    BSP_LCD_DrawRect(100,200,70,20);
+    BSP_LCD_DrawRect(100,100,70,20);
+    BSP_LCD_DrawRect(100,140,70,20);
   }
   /* USER CODE END StartPrintaDisplay */
 }
@@ -235,17 +235,19 @@ void StartMonitoraTouch(void const * argument)
 
     if(c.TsState.TouchDetected)
     {
-      if(c.TsState.X > 10 && c.TsState.X < 20)
+      if(c.TsState.X > 100 && c.TsState.X < 170)
       {
-        if(c.TsState.Y > 10 && c.TsState.Y < 20) // Botao 1
+        if(c.TsState.Y > 140 && c.TsState.Y < 160) // Botao 1
         {
           uint8_t ch = 'a';
           HAL_UART_Transmit(&huart1,&ch,1,1000);
+          BSP_LCD_DisplayStringAtLine(1,(uint8_t*)"Touch Botao 1");
         }
-        else if(c.TsState.Y > 30 && c.TsState.Y < 40) // Botao 2
+        else if(c.TsState.Y > 100 && c.TsState.Y < 120) // Botao 2
         {
           uint8_t ch = 'f';
           HAL_UART_Transmit(&huart1,&ch,1,1000);
+          BSP_LCD_DisplayStringAtLine(1,(uint8_t*)"Touch Botao 2");
         }
       }
     }
