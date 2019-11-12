@@ -52,18 +52,10 @@ void setup()
 
 void loop()
 {
-
-  gira_motor();
-  delay(300);
-  gira_motor2();
-  delay(300);
-  /*delay(dht.getMinimumSamplingPeriod());
+  delay(dht.getMinimumSamplingPeriod());
 
   float humidity = dht.getHumidity();
   float temperature = dht.getTemperature();
-
-  char str[30];
-  sprintf(str,"%02.1f %02.1f;",temperature,humidity);
 
   char temp[30];
   sprintf(temp,"Temperatura %2.1fC",temperature);
@@ -95,6 +87,9 @@ void loop()
   Serial.print("Recebido do Servidor: ");
   Serial.println(line);
 
+  char str[30];
+  sprintf(str,"%02.1f %02.1f;",temperature,humidity);
+
   server.print(str);
 
   if(line == "abrir")
@@ -114,7 +109,7 @@ void loop()
      }
   }
   
-  ////////////////// Wifi //////////////////////*/
+  ////////////////// Wifi //////////////////////
 }
 
 // Functions

@@ -134,7 +134,6 @@ int main(void)
 	BSP_LCD_DisplayOn();
 	BSP_LCD_Clear(LCD_COLOR_WHITE);
 	BSP_LCD_SetTextColor(LCD_COLOR_RED);
-	BSP_LCD_DisplayStringAtLine(1,(uint8_t*)"TESTE LINHA 1");
 	BSP_TS_Init(240, 320);
 
 

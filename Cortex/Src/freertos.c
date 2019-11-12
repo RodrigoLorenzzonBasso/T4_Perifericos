@@ -57,8 +57,14 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */     
 
+#include "stm32f429i_discovery_lcd.h"
+#include "stm32f429i_discovery_sdram.h"
+#include "stm32f429i_discovery_ts.h"
 #include "gpio.h"
 #include "usart.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
 
 /* USER CODE END Includes */
 
@@ -82,14 +88,18 @@
 
 struct Control{
 	
+  uint8_t raw_data[50];
 	float temp;
 	float umid;
+	char conectado;
+
+  TS_StateTypeDef TsState;
 	
-	unsigned char conectado;
-	
-	char str[50];
+	uint8_t str[50];
 	
 }c;
+
+void parser(uint8_t * raw_data, float * temp, float * umid, char * conectado);
 
 /* USER CODE END Variables */
 osThreadId PrintaDisplayHandle;
@@ -99,11 +109,7 @@ osSemaphoreId touchHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	//osThreadResume(myTask02Handle); //desbloqueia a TASK2
-	//osSemaphoreRelease(myBinarySem01Handle); // Libera o Semaforo 1
-}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -123,8 +129,8 @@ void MX_FREERTOS_Init(void) {
 	c.temp = 0.0;
 	c.umid = 0.0;
 	c.conectado = 0;
-	
-	// inicializa uart
+
+  HAL_UART_Receive_IT(&huart1,c.raw_data,11);
        
   /* USER CODE END Init */
 
@@ -159,7 +165,7 @@ void MX_FREERTOS_Init(void) {
   MonitoraTouchHandle = osThreadCreate(osThread(MonitoraTouch), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  //osThreadSuspend(myTask02Handle);//suspender para não executar a primeira vez
+  //osThreadSuspend(myTask02Handle);//suspender para nï¿½o executar a primeira vez
 	//osThreadSuspend(myTask03Handle);
   /* USER CODE END RTOS_THREADS */
 
@@ -185,12 +191,27 @@ void StartPrintaDisplay(void const * argument)
 		osSemaphoreWait(sensoresHandle, osWaitForever);
 		int temperatura = c.temp;
 		int umidade = c.umid;
-		unsigned char conectado = c.conectado;
+		char conectado = c.conectado;
 		osSemaphoreRelease(sensoresHandle);
 		
-		// DESENHA A TELA DO DISPLAY
+    BSP_LCD_SetFont(&Font16);
+
+    if(conectado == 's')
+    {
+      BSP_LCD_DisplayStringAtLine(2,(uint8_t*)"Conectado");
+    }
+    else if(conectado == 'n')
+    {
+      BSP_LCD_DisplayStringAtLine(2,(uint8_t*)" ");
+    }
+
+    sprintf((char*)c.str,"Temp %2.1fC",temperatura);
+    BSP_LCD_DisplayStringAtLine(4,c.str);
+    sprintf((char*)c.str,"Umid %2.1f%%", umidade);
+    BSP_LCD_DisplayStringAtLine(5,c.str);
 		
-    osDelay(1);
+    BSP_LCD_DrawRect(100,160,70,20);
+    BSP_LCD_DrawRect(100,200,70,20);
   }
   /* USER CODE END StartPrintaDisplay */
 }
@@ -208,13 +229,63 @@ void StartMonitoraTouch(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    osSemaphoreWait(touchHandle, osWaitForever);
+    BSP_TS_GetState(&c.TsState);
+    osSemaphoreRelease(touchHandle);
+
+    if(c.TsState.TouchDetected)
+    {
+      if(c.TsState.X > 10 && c.TsState.X < 20)
+      {
+        if(c.TsState.Y > 10 && c.TsState.Y < 20) // Botao 1
+        {
+          uint8_t ch = 'a';
+          HAL_UART_Transmit(&huart1,&ch,1,1000);
+        }
+        else if(c.TsState.Y > 30 && c.TsState.Y < 40) // Botao 2
+        {
+          uint8_t ch = 'f';
+          HAL_UART_Transmit(&huart1,&ch,1,1000);
+        }
+      }
+    }
   }
   /* USER CODE END StartMonitoraTouch */
 }
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+
+  osSemaphoreWait(sensoresHandle, osWaitForever);
+  parser(c.raw_data, &c.temp, &c.umid, &c.conectado);
+  osSemaphoreRelease(sensoresHandle);
+
+  HAL_UART_Receive_IT(&huart1,c.raw_data,11); 
+}
+
+void parser(uint8_t * raw_data, float * temp, float * umid, char * conectado)
+{
+  char t[4];
+  t[0] = raw_data[0];
+  t[1] = raw_data[1];
+  t[2] = raw_data[2];
+  t[3] = raw_data[3];
+  *temp = strtod(t, NULL);
+
+  char u[4];
+  u[0] = raw_data[5];
+  u[1] = raw_data[6];
+  u[2] = raw_data[7];
+  u[3] = raw_data[8];
+  *umid = strtod(u, NULL);
+
+  char c;
+  c = raw_data[10];
+  *conectado = c;
+}
      
 /* USER CODE END Application */
 
