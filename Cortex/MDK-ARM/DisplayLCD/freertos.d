@@ -53,5 +53,17 @@ displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 displaylcd\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\stm32f429i_discovery_lcd.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\stm32f429i_discovery.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\stm32f429i_discovery_sdram.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\../../../Utilities/Fonts/fonts.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\../Components/ili9341/ili9341.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\../Components/ili9341/../Common/lcd.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\stm32f429i_discovery_ts.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\../Components/stmpe811/stmpe811.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\../Components/stmpe811/../Common/ts.h
+displaylcd\freertos.o: ..\Drivers\BSP\STM32F429I-Discovery\../Components/stmpe811/../Common/io.h
 displaylcd\freertos.o: ../Inc/gpio.h
 displaylcd\freertos.o: ../Inc/usart.h
+displaylcd\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+displaylcd\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

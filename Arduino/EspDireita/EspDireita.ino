@@ -29,21 +29,23 @@ void loop() {
   if(s.available() > 0)
   {
      c = s.read();
-     Serial.print("Recebido do Cortex: ")
+     Serial.print("Recebido do Cortex: ");
      Serial.println(c);
   } 
 
   if(c == 'a')
     comando = "abrir;";
+    Serial.println("abrir");
   else if(c == 'f')
     comando = "fechar;";
+    Serial.println("fechar");
   else
     comando = ";";
 
   //////////////////////////////////////////////
 
   String line = "x";
-  char connected = 'n';
+  char connected_ = 'n';
 
   ////////////////// Wifi //////////////////////
   // Check if module is still connected to WiFi.
@@ -59,7 +61,7 @@ void loop() {
   {
     Serial.println("Client connected.");
 
-    connected = 's';
+    connected_ = 's';
 
     client.print(comando);
 
@@ -83,7 +85,7 @@ void loop() {
   if(line != "x")
   {
     line += " ";
-    line += connected;
+    line += connected_;
     Serial.print("Enviando para o Cortex: ");
     Serial.println(line);
     s.print(line);

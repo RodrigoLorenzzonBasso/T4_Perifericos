@@ -109,7 +109,7 @@ osSemaphoreId touchHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -188,11 +188,11 @@ void StartPrintaDisplay(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-		osSemaphoreWait(sensoresHandle, osWaitForever);
-		int temperatura = c.temp;
-		int umidade = c.umid;
+		//osSemaphoreWait(sensoresHandle, osWaitForever);
+		float temperatura = c.temp;
+		float umidade = c.umid;
 		char conectado = c.conectado;
-		osSemaphoreRelease(sensoresHandle);
+		//osSemaphoreRelease(sensoresHandle);
 		
     BSP_LCD_SetFont(&Font16);
 
@@ -202,7 +202,7 @@ void StartPrintaDisplay(void const * argument)
     }
     else if(conectado == 'n')
     {
-      BSP_LCD_DisplayStringAtLine(2,(uint8_t*)" ");
+      BSP_LCD_DisplayStringAtLine(2,(uint8_t*)"Nao conectado");
     }
 
     sprintf((char*)c.str,"Temp %2.1fC",temperatura);
@@ -210,8 +210,8 @@ void StartPrintaDisplay(void const * argument)
     sprintf((char*)c.str,"Umid %2.1f%%", umidade);
     BSP_LCD_DisplayStringAtLine(5,c.str);
 		
-    BSP_LCD_DrawRect(100,100,70,20);
-    BSP_LCD_DrawRect(100,140,70,20);
+    BSP_LCD_DrawRect(70,160,100,30);
+    BSP_LCD_DrawRect(70,240,100,30);
   }
   /* USER CODE END StartPrintaDisplay */
 }
@@ -229,21 +229,21 @@ void StartMonitoraTouch(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osSemaphoreWait(touchHandle, osWaitForever);
+    //osSemaphoreWait(touchHandle, osWaitForever);
     BSP_TS_GetState(&c.TsState);
-    osSemaphoreRelease(touchHandle);
+    //osSemaphoreRelease(touchHandle);
 
     if(c.TsState.TouchDetected)
     {
-      if(c.TsState.X > 100 && c.TsState.X < 170)
+      if(c.TsState.X > 70 && c.TsState.X < 170)
       {
-        if(c.TsState.Y > 140 && c.TsState.Y < 160) // Botao 1
+        if(c.TsState.Y > 235 && c.TsState.Y < 275) // Botao 1
         {
           uint8_t ch = 'a';
           HAL_UART_Transmit(&huart1,&ch,1,1000);
           BSP_LCD_DisplayStringAtLine(1,(uint8_t*)"Touch Botao 1");
         }
-        else if(c.TsState.Y > 100 && c.TsState.Y < 120) // Botao 2
+        else if(c.TsState.Y > 155 && c.TsState.Y < 235) // Botao 2
         {
           uint8_t ch = 'f';
           HAL_UART_Transmit(&huart1,&ch,1,1000);
@@ -258,14 +258,13 @@ void StartMonitoraTouch(void const * argument)
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-
-  osSemaphoreWait(sensoresHandle, osWaitForever);
+  //osSemaphoreWait(sensoresHandle, osWaitForever);
   parser(c.raw_data, &c.temp, &c.umid, &c.conectado);
-  osSemaphoreRelease(sensoresHandle);
+  //osSemaphoreRelease(sensoresHandle);
 
-  HAL_UART_Receive_IT(&huart1,c.raw_data,11); 
+  HAL_UART_Receive_IT(&huart1,c.raw_data,11);
 }
 
 void parser(uint8_t * raw_data, float * temp, float * umid, char * conectado)
