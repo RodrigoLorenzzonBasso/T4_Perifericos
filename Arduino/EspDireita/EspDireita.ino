@@ -13,14 +13,21 @@ void setup() {
   Serial.begin(115200);
   s.begin(38400);
   
-  Serial.println(WiFi.localIP());
+  //Serial.println(WiFi.localIP());
+
+  
   WiFi.begin(ssid, password);
   server.begin();
+
+  delay(1000);
+
+  Serial.println(WiFi.localIP());
 }
 
 void loop() {
 
   ///////////// recepcao do cortex /////////////
+
 
   String comando = ";";
 
@@ -31,17 +38,22 @@ void loop() {
      c = s.read();
      Serial.print("Recebido do Cortex: ");
      Serial.println(c);
+
+     //String line = "12.5 21.6 s";
+     //s.print(line);
   } 
 
-  if(c == 'a')
+  if(c == 'a'){
     comando = "abrir;";
     Serial.println("abrir");
-  else if(c == 'f')
+  }
+  else if(c == 'f'){
     comando = "fechar;";
     Serial.println("fechar");
-  else
+  }
+  else{
     comando = ";";
-
+  }
   //////////////////////////////////////////////
 
   String line = "x";

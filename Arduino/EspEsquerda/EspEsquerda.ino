@@ -10,7 +10,7 @@ Servo servo;
 int servoPin = 4;
 int pos;
               //rs, enable, d4, d5, d6, d7
-LiquidCrystal lcd(15, 13, 12, 14, 0, 2);
+LiquidCrystal lcd(15, 13, 12, 14, 2, 0);
 DHTesp dht;
 int dhtPin = 16;
 
@@ -19,7 +19,7 @@ char estado = 0; // 0 fechado 1 aberto
 // wifi setup
 const char* ssid = "P30_IOT";
 const char* password = "pucrs@2019";
-const char* host = "192.168.30.126";
+const char* host = "192.168.30.132";
 const int port = 31600;
 
 void setup()
