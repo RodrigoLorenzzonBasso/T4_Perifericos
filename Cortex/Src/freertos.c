@@ -210,6 +210,8 @@ void StartPrintaDisplay(void const * argument)
     sprintf((char*)c.str,"Umid %2.1f%%", umidade);
     BSP_LCD_DisplayStringAtLine(5,c.str);
 		
+		BSP_LCD_DisplayStringAtLine(6,c.raw_data);
+		
     BSP_LCD_DrawRect(70,160,100,30);
     BSP_LCD_DrawRect(70,240,100,30);
   }

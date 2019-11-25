@@ -11,15 +11,15 @@ WiFiServer server(port);
 
 void setup() {
   Serial.begin(115200);
+  Serial.print("agora vai");
+  delay(300);
   s.begin(38400);
-  
-  //Serial.println(WiFi.localIP());
 
-  
+  delay(300);
   WiFi.begin(ssid, password);
+  delay(300);
   server.begin();
-
-  delay(1000);
+  delay(300);
 
   Serial.println(WiFi.localIP());
 }
@@ -71,7 +71,7 @@ void loop() {
 
   if(client)
   {
-    Serial.println("Client connected.");
+    //Serial.println("Client connected.");
 
     connected_ = 's';
 
@@ -87,8 +87,8 @@ void loop() {
       }
     }
 
-    Serial.println("Client disconnected.");
-    client.stop();
+    //Serial.println("Client disconnected.");
+    //client.stop();
   }
   //////////////////////////////////////////////
 

@@ -19,14 +19,13 @@ char estado = 0; // 0 fechado 1 aberto
 // wifi setup
 const char* ssid = "P30_IOT";
 const char* password = "pucrs@2019";
-const char* host = "192.168.30.132";
+const char* host = "192.168.30.26";
 const int port = 31600;
 
 void setup()
 {
   Serial.begin(115200);
   dht.setup(dhtPin, DHTesp::DHT11); // Connect DHT sensor to GPIO 16
-  lcd.begin(16, 2);
   servo.attach(servoPin);
 
   Serial.print("Connecting to ");
@@ -42,12 +41,8 @@ void setup()
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-  Serial.println("Girando motor1");
-  gira_motor();
-
-  Serial.println("Girando motor2");
-  gira_motor2();
-  
+  delay(5000);
+  lcd.begin(16, 2);  
 }
 
 void loop()
@@ -94,19 +89,15 @@ void loop()
 
   if(line == "abrir")
   {
-     if(estado == 0)
-     {
-       gira_motor();
-       estado = 1;
-     } 
+     Serial.println("Entrou no if abrir");
+     gira_motor();
+
   }
   else if(line == "fechar")
   {
-    if(estado == 1)
-    {
-      gira_motor2();
-      estado = 0; 
-     }
+    Serial.println("Entrou no if fechar");
+    gira_motor2();
+
   }
   
   ////////////////// Wifi //////////////////////
@@ -116,6 +107,7 @@ void loop()
 
 void gira_motor()
 {
+  Serial.println("Entrou1");
   for(pos = 0; pos < 180; pos++){ //PARA "pos" IGUAL A 0, ENQUANTO "pos" MENOR QUE 180, INCREMENTA "pos"
     servo.write(pos); //ESCREVE O VALOR DA POSIÇÃO QUE O SERVO DEVE GIRAR
     delay(15); //INTERVALO DE 15 MILISSEGUNDOS
@@ -124,7 +116,8 @@ void gira_motor()
 
 void gira_motor2()
 {
-  for(pos = 180; pos < 0; pos--){ //PARA "pos" IGUAL A 0, ENQUANTO "pos" MENOR QUE 180, INCREMENTA "pos"
+  Serial.println("Entrou2");
+  for(pos = 180; pos > 0; pos--){ //PARA "pos" IGUAL A 0, ENQUANTO "pos" MENOR QUE 180, INCREMENTA "pos"
     servo.write(pos); //ESCREVE O VALOR DA POSIÇÃO QUE O SERVO DEVE GIRAR
     delay(15); //INTERVALO DE 15 MILISSEGUNDOS
   }    
