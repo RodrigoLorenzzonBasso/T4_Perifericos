@@ -39,8 +39,6 @@ void loop() {
      Serial.print("Recebido do Cortex: ");
      Serial.println(c);
 
-     //String line = "12.5 21.6 s";
-     //s.print(line);
   } 
 
   if(c == 'a'){
@@ -71,7 +69,6 @@ void loop() {
 
   if(client)
   {
-    //Serial.println("Client connected.");
 
     connected_ = 's';
 
@@ -84,11 +81,10 @@ void loop() {
         line = client.readStringUntil(';');
         Serial.print("Recebido do Cliente: ");
         Serial.println(line);
+        Serial.print("Tamanho em Bytes(9): ");
+        Serial.println(sizeof(line));
       }
     }
-
-    //Serial.println("Client disconnected.");
-    //client.stop();
   }
   //////////////////////////////////////////////
 
@@ -100,6 +96,8 @@ void loop() {
     line += connected_;
     Serial.print("Enviando para o Cortex: ");
     Serial.println(line);
+    Serial.print("Tamanho em Bytes(11): ");
+    Serial.println(sizeof(line));
     s.print(line);
   }
   

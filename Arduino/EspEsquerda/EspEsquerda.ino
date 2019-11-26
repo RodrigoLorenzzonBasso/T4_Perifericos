@@ -52,6 +52,15 @@ void loop()
   float humidity = dht.getHumidity();
   float temperature = dht.getTemperature();
 
+  if(humidity == NaN)
+  {
+    humidity = 0.0;
+  }
+  if(temperature = NaN)
+  {
+    temperature = 0.0;
+  }
+
   char temp[30];
   sprintf(temp,"Temperatura %2.1fC",temperature);
 
@@ -83,21 +92,16 @@ void loop()
   Serial.println(line);
 
   char str[30];
-  sprintf(str,"%02.1f %02.1f;",temperature,humidity);
-
+  sprintf(str,"%03.1f %03.1f;",temperature,humidity);
   server.print(str);
 
   if(line == "abrir")
   {
-     Serial.println("Entrou no if abrir");
      gira_motor();
-
   }
   else if(line == "fechar")
   {
-    Serial.println("Entrou no if fechar");
     gira_motor2();
-
   }
   
   ////////////////// Wifi //////////////////////
@@ -107,7 +111,6 @@ void loop()
 
 void gira_motor()
 {
-  Serial.println("Entrou1");
   for(pos = 0; pos < 180; pos++){ //PARA "pos" IGUAL A 0, ENQUANTO "pos" MENOR QUE 180, INCREMENTA "pos"
     servo.write(pos); //ESCREVE O VALOR DA POSIÇÃO QUE O SERVO DEVE GIRAR
     delay(15); //INTERVALO DE 15 MILISSEGUNDOS
@@ -116,7 +119,6 @@ void gira_motor()
 
 void gira_motor2()
 {
-  Serial.println("Entrou2");
   for(pos = 180; pos > 0; pos--){ //PARA "pos" IGUAL A 0, ENQUANTO "pos" MENOR QUE 180, INCREMENTA "pos"
     servo.write(pos); //ESCREVE O VALOR DA POSIÇÃO QUE O SERVO DEVE GIRAR
     delay(15); //INTERVALO DE 15 MILISSEGUNDOS
